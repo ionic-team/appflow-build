@@ -77,6 +77,13 @@ Then you can use the following command to see your token:
 ionic config get -g tokens.user
 ```
 
+Prevent the CLI from invalidating the token:
+
+```bash
+ionic config unset -g tokens.refresh
+ionic config unset -g tokens.user
+```
+
 ## License
 
 [MIT](/LICENSE)
