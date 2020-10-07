@@ -49,6 +49,8 @@ Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
     upload-artifact: Android-Build.zip
 ```
 
+> For the action to work you will need to [connect your Appflow app to GitHub](https://ionicframework.com/docs/appflow/quickstart/github) in the Appflow dashboard.
+
 The action can build iOS & Android binaries for Capacitor & Cordova apps using Appflow from any type of runner.
 You can easily use the [Appflow Dashboard](https://dashboard.ionicframework.com) to setup your application and use this
 action to run you builds & upload them as artifacts to GitHub.
