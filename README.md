@@ -1,103 +1,80 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Appflow Build Action for GitHub Actions
 
-# Create a JavaScript Action using TypeScript
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
+## Usage
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
-
-## Code in Main
-
-Install the dependencies  
-```bash
-$ npm install
-```
-
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
-
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+### Live Update
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+- name: Build Live Update on Appflow
+  uses: ionic-team/appflow-build@0.0.1
+  with:
+    token: ${{ secrets.APPFLOW_TOKEN }}
+    app-id: abcdef12
+    platform: Web
+    environment: MyEnvironment
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+> iOS & Android Builds Require a paid subscrpition to [Appflow](https://useappflow.com)
 
-## Usage:
+### iOS
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+```yaml
+- name: Build iOS on Appflow
+  uses: ionic-team/appflow-build@0.0.1
+  with:
+    token: ${{ secrets.APPFLOW_TOKEN }}
+    app-id: abcdef12
+    platform: iOS
+    build-type: ad-hoc
+    certificate: MyCertificate
+    environment: MyEnvironment
+    upload-artifact: iOS-Build.zip
+```
+
+### Android
+
+```yaml
+- name: Build Android on Appflow
+  uses: ionic-team/appflow-build@0.0.1
+  with:
+    token: ${{ secrets.APPFLOW_TOKEN }}
+    app-id: abcdef12
+    platform: Android
+    build-type: debug
+    environment: MyEnvironment
+    upload-artifact: Android-Build.zip
+```
+
+The action can build iOS & Android binaries for Capacitor & Cordova apps using Appflow from any type of runner.
+You can easily use the [Appflow Dashboard](https://dashboard.ionicframework.com) to setup your application and use this
+action to run you builds & upload them as artifacts to GitHub.
+
+See [action.yml](action.yml) for the full documentation for this action's inputs and outputs.
+
+> You can learn more about how to configure your build in the [Appflow docs](https://ionicframework.com/docs/appflow)
+
+## Authentication
+
+You will need a token to authenticate with Appflow.
+The easiest way to get your token is to use the Ionic CLI to login & retrieve the token.
+
+To login type:
+
+```bash
+npm i -g @ionic/cli
+ionic login
+```
+
+Then you can use the following command to see your token:
+
+```bash
+ionic config -g tokens.user
+```
+
+## License
+
+[MIT](/LICENSE)

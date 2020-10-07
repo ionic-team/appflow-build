@@ -1,11 +1,49 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Trigger Mobile Builds with Appflow'
+description: 'GitHub Action for triggering Appflow builds.'
+author: 'Ionic Appflow Team'
 inputs:
-  milliseconds: # change this
+  token:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'A token used to authenticate with the Appflow Service.'
+  app-id:
+    required: true
+    description: 'The Appflow App ID to trigger the build for.'
+  platform:
+    required: true
+    description: 'The platform to build for (Web, iOS, Android)'
+    default: 'Web'
+  filename:
+    required: false
+    description: 'The filename to use for the IPA/APK (iOS, Android) defaults to ${{ github.workflow }}-${{ github.run_id }}.[apk|ipa]'
+  build-stack:
+    required: false
+    description: 'The build stack to use for the build (macOS - 2020.06, Linux - 2020.06, etc.)'
+  build-type:
+    required: true
+    description: 'The type of build to perform. iOS - (ad-hoc, app-store, development, enterprise) Android - (debug, release)'
+  certificate:
+    required: false
+    description: 'The name of the signing certificate to use for the build.'
+  environment:
+    required: false
+    description: 'The name of the environment to use for the build.'
+  native-config:
+    required: false
+    description: 'The name of the native config to use for the build.'
+  destinations:
+    required: false
+    description: 'A comma seperated list of destination names to trigger a deployment to on successful completion of build.'
+  web-preview:
+    required: false
+    description: 'If the platform is Web set this to [yes|no] to control whether a web preview is created for the build.'
+    default: 'no'
+  upload-artifact:
+    required: false
+    description: 'If this is set if any artifacts are created (APK/IPA) they will be uploaded as the name that is specified'
+  artifact-retention-days:
+    required: false
+    description: 'Set this to determine the number of days to retain the uploaded artifact [1-90](defaults to 90).'
+    default: 90
 runs:
   using: 'node12'
   main: 'dist/index.js'
