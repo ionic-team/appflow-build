@@ -10,7 +10,7 @@ Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
 
 ```yaml
 - name: Build Live Update on Appflow
-  uses: ionic-team/appflow-build@0.0.1
+  uses: ionic-team/appflow-build@v1
   with:
     token: ${{ secrets.APPFLOW_TOKEN }}
     app-id: abcdef12
@@ -24,7 +24,7 @@ Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
 
 ```yaml
 - name: Build iOS on Appflow
-  uses: ionic-team/appflow-build@0.0.1
+  uses: ionic-team/appflow-build@v1
   with:
     token: ${{ secrets.APPFLOW_TOKEN }}
     app-id: abcdef12
@@ -39,7 +39,7 @@ Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
 
 ```yaml
 - name: Build Android on Appflow
-  uses: ionic-team/appflow-build@0.0.1
+  uses: ionic-team/appflow-build@v1
   with:
     token: ${{ secrets.APPFLOW_TOKEN }}
     app-id: abcdef12
@@ -72,7 +72,7 @@ ionic login
 Then you can use the following command to see your token:
 
 ```bash
-ionic config -g tokens.user
+ionic config get -g tokens.user
 ```
 
 ## License
