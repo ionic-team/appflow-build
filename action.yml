@@ -12,15 +12,12 @@ inputs:
     required: true
     description: 'The platform to build for (Web, iOS, Android)'
     default: 'Web'
-  filename:
+  build-type:
     required: false
-    description: 'The filename to use for the IPA/APK (iOS, Android) defaults to ${{ github.workflow }}-${{ github.run_id }}.[apk|ipa]'
+    description: 'The type of build to perform. iOS - (ad-hoc, app-store, development, enterprise) Android - (debug, release)'
   build-stack:
     required: false
     description: 'The build stack to use for the build (macOS - 2020.06, Linux - 2020.06, etc.)'
-  build-type:
-    required: true
-    description: 'The type of build to perform. iOS - (ad-hoc, app-store, development, enterprise) Android - (debug, release)'
   certificate:
     required: false
     description: 'The name of the signing certificate to use for the build.'
@@ -37,6 +34,9 @@ inputs:
     required: false
     description: 'If the platform is Web set this to [yes|no] to control whether a web preview is created for the build.'
     default: 'no'
+  filename:
+    required: false
+    description: 'The filename to use for the IPA/APK (iOS, Android) defaults to ${{ github.workflow }}-${{ github.run_id }}.[apk|ipa]'
   upload-artifact:
     required: false
     description: 'If this is set if any artifacts are created (APK/IPA) they will be uploaded as the name that is specified'
