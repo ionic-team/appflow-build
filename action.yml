@@ -1,5 +1,9 @@
 name: 'Trigger Mobile Builds with Appflow'
 description: 'GitHub Action for triggering Appflow builds.'
+branding:
+  icon: 'package'
+  color: 'blue'
+
 author: 'Ionic Appflow Team'
 inputs:
   token:
