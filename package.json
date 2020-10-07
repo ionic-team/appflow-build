@@ -1,6 +1,6 @@
 {
   "name": "appflow-build",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "private": true,
   "description": "GitHub Action for triggering Appflow builds.",
   "main": "lib/main.js",
