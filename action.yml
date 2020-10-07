@@ -36,7 +36,7 @@ inputs:
     default: 'no'
   filename:
     required: false
-    description: 'The filename to use for the IPA/APK (iOS, Android) defaults to ${{ github.workflow }}-${{ github.run_id }}.[apk|ipa]'
+    description: 'The filename to use for the IPA/APK (iOS, Android) defaults to {{workflow_name}}-{{run_id}}.[apk|ipa]'
   upload-artifact:
     required: false
     description: 'If this is set if any artifacts are created (APK/IPA) they will be uploaded as the name that is specified'
