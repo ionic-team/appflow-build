@@ -24,6 +24,7 @@ async function run(): Promise<void> {
       nativeConfig: core.getInput('native-config'),
       webPreview: core.getInput('web-preview') === 'yes',
       filename: core.getInput('filename'),
+      destinations: core.getInput('destinations'),
     });
     if (pathToArtifact && artifactName) {
       core.info('Attempting to upload generated artifacts.');
