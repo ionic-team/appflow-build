@@ -115,7 +115,7 @@ export async function getCommit(app: App, client: AxiosInstance) {
   const headRef = process.env.GITHUB_HEAD_REF;
   let sha: string | undefined = undefined;
   if (!!headRef) {
-    sha = (await exec(`git rev-parse ${headRef}`)).stdout;
+    sha = (await exec('git log --no-merges -1 --format=%H')).stdout;
   } else {
     sha = process.env.GITHUB_SHA;
     if (!sha) {

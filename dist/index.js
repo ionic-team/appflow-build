@@ -6894,7 +6894,7 @@ function getCommit(app, client) {
         const headRef = process.env.GITHUB_HEAD_REF;
         let sha = undefined;
         if (!!headRef) {
-            sha = (yield exec(`git rev-parse ${headRef}`)).stdout;
+            sha = (yield exec('git log --no-merges -1 --format=%H')).stdout;
         }
         else {
             sha = process.env.GITHUB_SHA;
