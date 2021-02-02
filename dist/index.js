@@ -6895,11 +6895,9 @@ function getCommit(app, client) {
         let sha = undefined;
         if (!!headRef) {
             sha = (yield exec(`git rev-parse ${headRef}`)).stdout;
-            console.log('got head ref from PR', sha);
         }
         else {
             sha = process.env.GITHUB_SHA;
-            console.log('got sha not PR', sha);
             if (!sha) {
                 throw new Error('Unable to determine commit sha');
             }

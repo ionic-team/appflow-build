@@ -116,10 +116,8 @@ export async function getCommit(app: App, client: AxiosInstance) {
   let sha: string | undefined = undefined;
   if (!!headRef) {
     sha = (await exec(`git rev-parse ${headRef}`)).stdout;
-    console.log('got head ref from PR', sha);
   } else {
     sha = process.env.GITHUB_SHA;
-    console.log('got sha not PR', sha);
     if (!sha) {
       throw new Error('Unable to determine commit sha');
     }
