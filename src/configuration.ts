@@ -1,5 +1,7 @@
 import { AxiosInstance } from 'axios';
-import { CommonOptions } from 'child_process';
+import { promisify } from 'util';
+import { exec as _exec } from 'child_process';
+const exec = promisify(_exec);
 
 export async function getCertificate(
   client: AxiosInstance,
@@ -110,9 +112,17 @@ export async function getAppStoreDestinations(
 }
 
 export async function getCommit(app: App, client: AxiosInstance) {
-  const sha = process.env.GITHUB_SHA;
-  if (!sha) {
-    throw new Error('Unable to determine commit sha');
+  const headRef = process.env.GITHUB_HEAD_REF;
+  let sha: string | undefined = undefined;
+  if (!!headRef) {
+    sha = (await exec(`git rev-parse ${headRef}`)).stdout;
+    console.log('got head ref from PR', sha);
+  } else {
+    sha = process.env.GITHUB_SHA;
+    console.log('got sha not PR', sha);
+    if (!sha) {
+      throw new Error('Unable to determine commit sha');
+    }
   }
 
   let commit: Commit | undefined = undefined;

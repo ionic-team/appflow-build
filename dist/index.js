@@ -1218,6 +1218,13 @@ module.exports = {"_from":"axios","_id":"axios@0.20.0","_inBundle":false,"_integ
 
 /***/ }),
 
+/***/ 129:
+/***/ (function(module) {
+
+module.exports = require("child_process");
+
+/***/ }),
+
 /***/ 133:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -6788,7 +6795,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 /***/ }),
 
 /***/ 658:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6803,6 +6810,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCommit = exports.getAppStoreDestinations = exports.getChannels = exports.getNativeConfig = exports.getEnvironment = exports.getCertificate = void 0;
+const util_1 = __webpack_require__(669);
+const child_process_1 = __webpack_require__(129);
+const exec = util_1.promisify(child_process_1.exec);
 function getCertificate(client, ctx, app) {
     return __awaiter(this, void 0, void 0, function* () {
         const { certificate } = ctx;
@@ -6881,9 +6891,18 @@ function getAppStoreDestinations(client, ctx, app) {
 exports.getAppStoreDestinations = getAppStoreDestinations;
 function getCommit(app, client) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sha = process.env.GITHUB_SHA;
-        if (!sha) {
-            throw new Error('Unable to determine commit sha');
+        const headRef = process.env.GITHUB_HEAD_REF;
+        let sha = undefined;
+        if (!!headRef) {
+            sha = (yield exec(`git rev-parse ${headRef}`)).stdout;
+            console.log('got head ref from PR', sha);
+        }
+        else {
+            sha = process.env.GITHUB_SHA;
+            console.log('got sha not PR', sha);
+            if (!sha) {
+                throw new Error('Unable to determine commit sha');
+            }
         }
         let commit = undefined;
         let hasMoreCommits = true;
