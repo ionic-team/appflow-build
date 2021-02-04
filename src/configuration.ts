@@ -1,7 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { promisify } from 'util';
-import { exec as _exec } from 'child_process';
-const exec = promisify(_exec);
+import * as github from '@actions/github';
 
 export async function getCertificate(
   client: AxiosInstance,
@@ -112,10 +110,10 @@ export async function getAppStoreDestinations(
 }
 
 export async function getCommit(app: App, client: AxiosInstance) {
-  const headRef = process.env.GITHUB_HEAD_REF;
   let sha: string | undefined = undefined;
-  if (!!headRef) {
-    sha = (await exec('git log --no-merges -1 --format=%H')).stdout;
+  if (!!github.context.payload.pull_request) {
+    console.log('Pull request: ', github.context.payload.pull_request);
+    sha = github.context.payload.pull_request.head.sha;
   } else {
     sha = process.env.GITHUB_SHA;
     if (!sha) {
