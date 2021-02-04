@@ -10805,7 +10805,6 @@ function getCommit(app, client) {
     return __awaiter(this, void 0, void 0, function* () {
         let sha = undefined;
         if (!!github.context.payload.pull_request) {
-            console.log('Pull request: ', github.context.payload.pull_request);
             sha = github.context.payload.pull_request.head.sha;
         }
         else {

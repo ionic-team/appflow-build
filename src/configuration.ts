@@ -112,7 +112,6 @@ export async function getAppStoreDestinations(
 export async function getCommit(app: App, client: AxiosInstance) {
   let sha: string | undefined = undefined;
   if (!!github.context.payload.pull_request) {
-    console.log('Pull request: ', github.context.payload.pull_request);
     sha = github.context.payload.pull_request.head.sha;
   } else {
     sha = process.env.GITHUB_SHA;
