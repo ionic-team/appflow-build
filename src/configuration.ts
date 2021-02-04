@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CommonOptions } from 'child_process';
+import * as github from '@actions/github';
 
 export async function getCertificate(
   client: AxiosInstance,
@@ -110,9 +110,14 @@ export async function getAppStoreDestinations(
 }
 
 export async function getCommit(app: App, client: AxiosInstance) {
-  const sha = process.env.GITHUB_SHA;
-  if (!sha) {
-    throw new Error('Unable to determine commit sha');
+  let sha: string | undefined = undefined;
+  if (!!github.context.payload.pull_request) {
+    sha = github.context.payload.pull_request.head.sha;
+  } else {
+    sha = process.env.GITHUB_SHA;
+    if (!sha) {
+      throw new Error('Unable to determine commit sha');
+    }
   }
 
   let commit: Commit | undefined = undefined;
