@@ -146,7 +146,7 @@ function printBuildContext({
   Build Stack:   ${stack.friendly_name}
   Environment:   ${environment?.name || 'None'}`;
   switch (platform) {
-    case 'web-deploy':
+    case 'WEB':
       output += `
   Web Preview:   ${ctx.webPreview ? 'YES' : 'NO'}
   Channels:      ${destinations?.map(d => d.name).join(', ') || 'None'}`;
@@ -166,7 +166,7 @@ function determineFileLocation(ctx: AppflowContext, platform: NativePlatform) {
   let filename =
     ctx.filename ||
     `${process.env.GITHUB_WORKFLOW}-${process.env.GITHUB_RUN_ID}`;
-  const extension = platform === 'android' ? '.apk' : '.ipa';
+  const extension = platform === 'ANDROID' ? '.apk' : '.ipa';
   if (!filename.endsWith(extension)) {
     filename = `${filename}${extension}`;
   }

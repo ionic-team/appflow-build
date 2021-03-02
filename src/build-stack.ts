@@ -1,14 +1,14 @@
 import { AxiosInstance } from 'axios';
 
 export function getPlatform(ctx: AppflowContext): Platform {
-  const platform = ctx.platform.toLowerCase();
+  const platform = ctx.platform.toUpperCase();
   switch (platform) {
-    case 'ios':
-      return 'ios';
-    case 'android':
-      return 'android';
-    case 'web':
-      return 'web-deploy';
+    case 'IOS':
+      return 'IOS';
+    case 'ANDROID':
+      return 'ANDROID';
+    case 'WEB':
+      return 'WEB';
     default:
       throw new Error(
         `${ctx.platform} is not a valid platform. must be one of (Web, iOS, Android).`

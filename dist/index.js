@@ -12106,14 +12106,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBuildStack = exports.getAndValidateBuildType = exports.getPlatform = void 0;
 function getPlatform(ctx) {
-    const platform = ctx.platform.toLowerCase();
+    const platform = ctx.platform.toUpperCase();
     switch (platform) {
-        case 'ios':
-            return 'ios';
-        case 'android':
-            return 'android';
-        case 'web':
-            return 'web-deploy';
+        case 'IOS':
+            return 'IOS';
+        case 'ANDROID':
+            return 'ANDROID';
+        case 'WEB':
+            return 'WEB';
         default:
             throw new Error(`${ctx.platform} is not a valid platform. must be one of (Web, iOS, Android).`);
     }
@@ -13170,7 +13170,7 @@ function runWithContext(ctx) {
             ctx.logger.debug(`got native config with id: ${nativeConfig.id}`);
         }
         switch (platform) {
-            case 'web-deploy':
+            case 'WEB':
                 const channels = yield configuration_1.getChannels(client, ctx, app);
                 if (channels) {
                     ctx.logger.debug(`got channels (${channels.map(c => c.id).join(', ')})`);
@@ -16319,7 +16319,7 @@ function printBuildContext({ app, commit, platform, stack, buildType, certificat
   Build Stack:   ${stack.friendly_name}
   Environment:   ${(environment === null || environment === void 0 ? void 0 : environment.name) || 'None'}`;
     switch (platform) {
-        case 'web-deploy':
+        case 'WEB':
             output += `
   Web Preview:   ${ctx.webPreview ? 'YES' : 'NO'}
   Channels:      ${(destinations === null || destinations === void 0 ? void 0 : destinations.map(d => d.name).join(', ')) || 'None'}`;
@@ -16337,7 +16337,7 @@ function printBuildContext({ app, commit, platform, stack, buildType, certificat
 function determineFileLocation(ctx, platform) {
     let filename = ctx.filename ||
         `${process.env.GITHUB_WORKFLOW}-${process.env.GITHUB_RUN_ID}`;
-    const extension = platform === 'android' ? '.apk' : '.ipa';
+    const extension = platform === 'ANDROID' ? '.apk' : '.ipa';
     if (!filename.endsWith(extension)) {
         filename = `${filename}${extension}`;
     }

@@ -57,7 +57,7 @@ export async function runWithContext(
   }
 
   switch (platform) {
-    case 'web-deploy':
+    case 'WEB':
       const channels = await getChannels(client, ctx, app);
       if (channels) {
         ctx.logger.debug(

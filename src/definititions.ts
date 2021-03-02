@@ -1,5 +1,5 @@
-type NativePlatform = 'ios' | 'android';
-type WebPlatform = 'web-deploy';
+type NativePlatform = 'IOS' | 'ANDROID';
+type WebPlatform = 'WEB';
 type Platform = NativePlatform | WebPlatform;
 
 type BuildTypeName =
