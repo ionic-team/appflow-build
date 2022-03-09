@@ -18,7 +18,7 @@ Trigger [Appflow](https://useappflow.com) Capacitor & Cordova Mobile Builds.
     environment: MyEnvironment
 ```
 
-> iOS & Android Builds Require a paid subscrpition to [Appflow](https://useappflow.com)
+> iOS & Android Builds Require a paid subscription to [Appflow](https://useappflow.com)
 
 ### iOS
 
