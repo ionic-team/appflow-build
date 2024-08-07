@@ -38,6 +38,9 @@ inputs:
     required: false
     description: 'If the platform is Web set this to [yes|no] to control whether a web preview is created for the build.'
     default: 'no'
+  artifact-type:
+    required: false
+    description: 'The build artifact type to download. APK | IPA | APP | ...'
   filename:
     required: false
     description: 'The filename to use for the IPA/APK (iOS, Android) defaults to {{workflow_name}}-{{run_id}}.[apk|ipa]'
@@ -49,5 +52,5 @@ inputs:
     description: 'Set this to determine the number of days to retain the uploaded artifact [1-90](defaults to 90).'
     default: 90
 runs:
-  using: 'node12'
+  using: 'node20'
   main: 'dist/index.js'

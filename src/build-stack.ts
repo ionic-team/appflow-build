@@ -18,6 +18,7 @@ export function getPlatform(ctx: AppflowContext): Platform {
 
 const VALID_BUILD_TYPES = [
   'ad-hoc',
+  'simulator',
   'app-store',
   'development',
   'enterprise',

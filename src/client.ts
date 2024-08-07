@@ -8,10 +8,10 @@ export function getClient(ctx: AppflowContext) {
     baseURL,
     timeout: 5000,
     responseType: 'json',
-    headers: { 
+    headers: {
       Authorization: `Bearer ${token}`,
       // Format adopted from standard defined here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent
-      'User-Agent': 'AppflowBuildAction/1.0.3'
+      'User-Agent': 'AppflowBuildAction/1.0.3',
     },
   });
 }

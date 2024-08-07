@@ -32,6 +32,7 @@ interface AppflowContext {
   destinations?: string;
   webPreview?: boolean;
   apiUrl?: string;
+  artifactType?: string;
 }
 
 interface App {
