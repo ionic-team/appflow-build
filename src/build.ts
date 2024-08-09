@@ -107,7 +107,13 @@ export async function triggerNativeBuild({
   switch (finishedBuild.state) {
     case 'success':
       const fileLocation = determineFileLocation(ctx, platform);
-      await downloadBuild(app, finishedBuild.job_id, client, fileLocation);
+      await downloadBuild(
+        app,
+        finishedBuild.job_id,
+        ctx.artifactType,
+        client,
+        fileLocation
+      );
       return fileLocation;
     default:
       throw new Error(
@@ -166,7 +172,12 @@ function determineFileLocation(ctx: AppflowContext, platform: NativePlatform) {
   let filename =
     ctx.filename ||
     `${process.env.GITHUB_WORKFLOW}-${process.env.GITHUB_RUN_ID}`;
-  const extension = platform === 'ANDROID' ? '.apk' : '.ipa';
+  const extension = (() => {
+    if (ctx.artifactType === 'APP') {
+      return '.app.zip';
+    }
+    return platform === 'ANDROID' ? '.apk' : '.ipa';
+  })();
   if (!filename.endsWith(extension)) {
     filename = `${filename}${extension}`;
   }
@@ -249,9 +260,14 @@ async function getBuild(
 async function getDownloadUrl(
   app: App,
   buildId: number,
+  artifactType: string | undefined,
   client: AxiosInstance
 ): Promise<string> {
-  const resp = await client.get(`/apps/${app.id}/packages/${buildId}/download`);
+  const resp = await client.get(
+    `/apps/${app.id}/packages/${buildId}/download${
+      artifactType ? `?artifact_type=${artifactType}` : ''
+    }`
+  );
   const url = resp.data.data.url;
   if (!url) {
     throw new Error('Failed to download binary');
@@ -262,10 +278,11 @@ async function getDownloadUrl(
 async function downloadBuild(
   app: App,
   buildId: number,
+  artifactType: string | undefined,
   client: AxiosInstance,
   fileLocation: string
 ) {
-  const downloadUrl = await getDownloadUrl(app, buildId, client);
+  const downloadUrl = await getDownloadUrl(app, buildId, artifactType, client);
   const writer = createWriteStream(fileLocation);
 
   return Axios({

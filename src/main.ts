@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
 import * as artifact from '@actions/artifact';
-import { getClient } from './client';
 import { runWithContext } from './run';
 
 async function run(): Promise<void> {
@@ -9,8 +8,8 @@ async function run(): Promise<void> {
     error: core.error,
     print: core.info,
   };
+  const artifactName = core.getInput('upload-artifact');
   try {
-    const artifactName = core.getInput('upload-artifact');
     const retentionDays = parseInt(core.getInput('artifact-retention-days'));
     const pathToArtifact = await runWithContext({
       logger,
@@ -18,6 +17,7 @@ async function run(): Promise<void> {
       token: core.getInput('token'),
       platform: core.getInput('platform'),
       buildStack: core.getInput('build-stack'),
+      artifactType: core.getInput('artifact-type'),
       buildType: core.getInput('build-type'),
       certificate: core.getInput('certificate'),
       environment: core.getInput('environment'),
@@ -28,25 +28,18 @@ async function run(): Promise<void> {
     });
     if (pathToArtifact && artifactName) {
       core.info('Attempting to upload generated artifacts.');
-      const artifactClient = artifact.create();
-      const uploadResult = await artifactClient.uploadArtifact(
+      const artifactClient = new artifact.DefaultArtifactClient();
+      await artifactClient.uploadArtifact(
         artifactName,
         [pathToArtifact],
         process.env.HOME as string,
         { retentionDays }
       );
-      uploadResult.failedItems.forEach(item =>
-        core.warning(`Failed to upload artifact ${item}`)
-      );
-      core.info(`Uploaded artifact ${uploadResult.artifactName}`);
+      core.info(`Uploaded artifact ${artifactName}`);
     }
-  } catch (error) {
-    if (error.response) {
-      try {
-        core.error(JSON.stringify(error.response.data, null, 2));
-      } catch (e) {}
-    }
-    core.setFailed(error.message);
+  } catch (err: unknown) {
+    core.error(`Failed to upload artifact ${artifactName}: ${err}`);
+    core.setFailed(`${err}`);
   }
 }
 
